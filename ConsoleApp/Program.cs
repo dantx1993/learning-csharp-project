@@ -7,10 +7,13 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
             ReflectionCsharp reflectionCsharp = new ReflectionCsharp();
-            
+
             // reflectionCsharp.Demo01();
 
-            reflectionCsharp.Demo02();
+            // reflectionCsharp.Demo02();
+
+            reflectionCsharp.Demo03();
+
         }
     }
 }

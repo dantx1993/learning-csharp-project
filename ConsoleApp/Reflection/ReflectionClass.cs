@@ -47,6 +47,11 @@ public class ReflectionClass
         _name = name;
         _content = content;
     }
+    public ReflectionClass(int id, string name)
+    {
+        _id = id;
+        _name = name;
+    }
     public ReflectionClass(int id, string name, string content)
     {
         _id = id;
@@ -70,6 +75,29 @@ public class ReflectionClass
         System.Console.WriteLine($"ID: {_id}");
         System.Console.WriteLine($"Name: {_name}");
         System.Console.WriteLine($"Content: {_content}");
+    }
+}
+
+public interface ITalk
+{
+    void TalkLanguage();
+}
+
+public class Britist : ITalk
+{
+    public const string LANGUAGE = "ENGLISH";
+    public void TalkLanguage()
+    {
+        Console.WriteLine(LANGUAGE);
+    }
+}
+
+public class Vietnamese : ITalk
+{
+    public const string LANGUAGE = "VIETNAMESE";
+    public void TalkLanguage()
+    {
+        Console.WriteLine(LANGUAGE);
     }
 }
 
@@ -247,5 +275,53 @@ public class ReflectionCsharp
         // System.String _content
 
         Console.WriteLine("");
+    }
+
+    public void Demo03()
+    {
+        System.Console.WriteLine("_____CREATE_OBJECTS_____");
+        
+        ReflectionClass reflectionClass = new ReflectionClass();
+        Type type = reflectionClass.GetType();
+
+        ReflectionClass firstReflection = (ReflectionClass)Activator.CreateInstance(type, new object[] { 10 });             //  Một tham số
+        ReflectionClass secondReflection = (ReflectionClass)Activator.CreateInstance(type, new object[] { 10, "Dan" });     //  Hai tham số
+
+        System.Console.WriteLine("firstReflection:");
+        firstReflection.Write();        //  Output: Id: 10. Name:
+        System.Console.WriteLine("secondReflection:");
+        secondReflection.Write();       //  Output: Id: 10. Name: Name
+
+        System.Console.WriteLine("");
+
+        System.Console.WriteLine("_____INHERIATE_INTERFACE_____");
+
+        Type interfaceType = typeof(ITalk);
+
+        List<Type> needValids = AppDomain.CurrentDomain.GetAssemblies()
+                                        .SelectMany(s => s.GetTypes())
+                                        .Where(p => interfaceType.IsAssignableFrom(p) && !p.IsInterface && !p.IsAbstract)
+                                        .ToList();
+
+        // AppDomain: Đại diện cho một miền ứng dụng, là một môi trường biệt lập nơi các ứng dụng thực thi.
+        // CurerntDomain: Nhận AppDomain cho Thread hiện tại
+        // GetAssemblies(): Get các Assembly đã được tải trong execution context (Ngữ cảnh thực thi) của AppDomain
+        // SelectMany in Linq: Lấy tất cả các object thỏa mãn trong tất cả các IEnumerable nằm trong List đã có
+
+        // Type.IsAssignableFrom(Type input): Xác định xem input đang dùng có là 1 kế thừa của type hay không?
+        // Where(p => interfaceType.IsAssignableFrom(p) && !p.IsInterface && !p.IsAbstract): Lấy các type mà là kế thừa của type đầu vào và không phải là interface và abstract
+
+        foreach (var item in needValids) Console.WriteLine(item);
+        System.Console.WriteLine("");
+
+        foreach (var item in needValids)
+        {
+            ITalk talk = Activator.CreateInstance(item, null) as ITalk;
+
+            Console.Write($"{item}: ");
+            talk.TalkLanguage();
+        }
+
+        System.Console.WriteLine("");
     }
 }
