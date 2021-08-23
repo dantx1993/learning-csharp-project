@@ -306,9 +306,9 @@ public class ReflectionCsharp
         // AppDomain: Đại diện cho một miền ứng dụng, là một môi trường biệt lập nơi các ứng dụng thực thi.
         // CurerntDomain: Nhận AppDomain cho Thread hiện tại
         // GetAssemblies(): Get các Assembly đã được tải trong execution context (Ngữ cảnh thực thi) của AppDomain
-        // SelectMany in Linq: Lấy tất cả các object thỏa mãn trong tất cả các IEnumerable nằm trong List đã có
+        // SelectMany in Linq: Lấy tất cả các object thỏa mãn trong tất cả các IEnumerable nằm trong IEnumerable đã có
 
-        // Type.IsAssignableFrom(Type input): Xác định xem input đang dùng có là 1 kế thừa của type hay không?
+        // Type.IsAssignableFrom(Type input): Xác định xem input có là 1 kế thừa của type hay không?
         // Where(p => interfaceType.IsAssignableFrom(p) && !p.IsInterface && !p.IsAbstract): Lấy các type mà là kế thừa của type đầu vào và không phải là interface và abstract
 
         foreach (var item in needValids) Console.WriteLine(item);
